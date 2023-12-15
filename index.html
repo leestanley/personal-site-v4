@@ -20,30 +20,6 @@
             line-height: 1.6;
         }
     </style>
-    <script>
-        const apiKey = process.env.LASTFM_API_KEY;
-        const username = 'leestanleysg';
-
-        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&user=${username}&period=7day&limit=3&format=json&api_key=${apiKey}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const artists = data.topartists.artist;
-
-                // Build the list of artists with commas and "and" before the last one
-                const artistList = artists.map((artist, index) =>
-                    index === artists.length - 1 ? `and ${artist.name}` : `${artist.name},`);
-
-                // Join the list into a single string
-                const artistNames = artistList.join(" ");
-
-                const artistElement = document.getElementById("artists");
-                artistElement.innerHTML = `i've been listening to <a href="https://www.last.fm/user/${username}/library/artists?date_preset=LAST_7_DAYS">${artistNames}</a> recently`;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 </head>
 
 <body>
@@ -77,8 +53,20 @@
                 ">github</li>
             <li><a href="mailto:stanleylee91776@gmail.com">email</a></li>
         </ul>
-
     </section>
+    <script>
+        fetch('/.netlify/functions/getTopArtists')
+            .then(response => response.json())
+            .then(data => {
+                const artistNames = data.artistNames;
+
+                const artistElement = document.getElementById("artists");
+                artistElement.innerHTML = `i've been listening to <a href="https://www.last.fm/user/${username}/library/artists?date_preset=LAST_7_DAYS">${artistNames}</a> recently`;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 </body>
 
 </html>
