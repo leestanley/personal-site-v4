@@ -62,7 +62,7 @@
                 const artistNames = data.artistNames;
 
                 const artistElement = document.getElementById("artists");
-                artistElement.innerHTML = `i've been listening to <a href="https://www.last.fm/user/leestanleysg/library/artists?date_preset=LAST_7_DAYS">${artistNames}</a> recently`;
+                artistElement.innerHTML = `i've been listening to <a href="https://www.last.fm/user/leestanleysg/listening-report">${artistNames}</a> recently`;
             })
             .catch(error => {
                 console.error(error);
