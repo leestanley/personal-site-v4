@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stanley Lee</title>
+    <style>
+        body {
+            font-family: 'Garamond', serif;
+            font-size: 1em;
+            line-height: 1.5em;
+            margin: 2em auto;
+            max-width: 35em;
+            background-color: #f1ebe2;
+            color: #1f1f1f;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+    </style>
+    <script>
+        const apiKey = process.env.LASTFM_API_KEY;
+        const username = 'leestanleysg';
+
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&user=${username}&period=7day&limit=3&format=json&api_key=${apiKey}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const artists = data.topartists.artist;
+
+                // Build the list of artists with commas and "and" before the last one
+                const artistList = artists.map((artist, index) =>
+                    index === artists.length - 1 ? `and ${artist.name}` : `${artist.name},`);
+
+                // Join the list into a single string
+                const artistNames = artistList.join(" ");
+
+                const artistElement = document.getElementById("artists");
+                artistElement.innerHTML = `i've been listening to <a href="https://www.last.fm/user/${username}/library/artists?date_preset=LAST_7_DAYS">${artistNames}</a> recently`;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>hi im stanley</h1>
+        <p>currently stationed in the bay area</p>
+    </header>
+    <section>
+        <h2>what im currently doing</h2>
+        <ul>
+            <li>i currently work at NVIDIA as a product manager</li>
+            <li>ocassionally do hackathons. i've done about ~30 hackathons so far: <a
+                    href="https://devpost.com/leestanley">devpost</a>
+            <li id="artists">fetching music i'm listening to...</li>
+        </ul>
+        <h2>stuff in the past</h2>
+        <ul>
+            <li>graduated from UCSD in 2022, here are a few things i did</li>
+            <ul>
+                <li>president of ACM from 2021-2022 and part of the <a
+                        href="https://medium.com/acmucsd/how-to-make-a-diamond-c93f61da1d06">founding board</a></li>
+            </ul>
+            <li>scouted for <a href="https://contrary.com//">Contrary</a> as a venture partner</li>
+            <li>co-founded wistly, a package delivery startup that went through <a
+                    href="https://thebasement.ucsd.edu/">the basement</a></li>
+        </ul>
+        <h2>get in touch</h2>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/leestanleysg/">linkedin</li>
+            <li><a href="https://github.com/leestanley
+                ">github</li>
+            <li><a href="mailto:stanleylee91776@gmail.com">email</a></li>
+        </ul>
+
+    </section>
+</body>
+
+</html>
